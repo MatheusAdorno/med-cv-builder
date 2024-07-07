@@ -9,7 +9,7 @@ export default function Header() {
   return (
     <div className="flex p-3 px-5 justify-between shadow-md">
       <Link to={"/"}>
-        <img src='../../../public/logo.svg' alt='Logo' width={100} height={100} />
+        <img src='/logo.svg' alt='Logo' width={100} height={100} />
       </Link>
 
       {isSignedIn ? 
