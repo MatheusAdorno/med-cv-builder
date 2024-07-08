@@ -33,7 +33,8 @@ export default function AddCurriculum() {
         title: curriculumTitle,
         curriculumId: uuid,
         userEmail: user?.primaryEmailAddress?.emailAddress,
-        userName: user?.fullName
+        userName: user?.fullName,
+        themeColor: '#000000'
       }
     }
     
