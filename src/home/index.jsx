@@ -39,7 +39,7 @@ function Home() {
               className="block rounded-xl border bg-white
                 border-gray-200 p-8 shadow-xl transition
                 hover:border-primary/10 hover:shadow-primary/10"
-              href="#"
+              href="/auth/sign-in"
             >
               <UserIcon className='h-8 w-8' />
 
@@ -52,7 +52,7 @@ function Home() {
 
             <a
               className="block rounded-xl border bg-white border-gray-200 p-8 shadow-xl transition hover:border-primary/10 hover:shadow-primary/10"
-              href="#"
+              href="/auth/sign-in"
             >
               <FileText className='h-8 w-8' />
 
@@ -65,7 +65,7 @@ function Home() {
 
             <a
               className="block rounded-xl border bg-white border-gray-200 p-8 shadow-xl transition hover:border-primary/10 hover:shadow-primary/10"
-              href="#"
+              href="/auth/sign-in"
             >
               <Download className='h-8 w-8' />
 
