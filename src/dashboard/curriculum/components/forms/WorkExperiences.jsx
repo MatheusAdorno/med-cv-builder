@@ -1,16 +1,16 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { useContext, useEffect, useState } from "react"
-import RichTextEditor from "../RichTextEditor"
-import { CurriculumInfoContext } from "@/context/CurriculumInfoContext"
-import { useParams } from "react-router-dom"
-import GlobalApi from "./../../../../../service/GlobalApi"
-import { toast } from "sonner"
-import { LoaderCircle } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useContext, useEffect, useState } from "react";
+import RichTextEditor from "../RichTextEditor";
+import { CurriculumInfoContext } from "@/context/CurriculumInfoContext";
+import { useParams } from "react-router-dom";
+import GlobalApi from "./../../../../../service/GlobalApi";
+import { toast } from "sonner";
+import { LoaderCircle } from "lucide-react";
 
-const formField = {
+const formField = () => ({
   title: '',
   local: '',
   city: '',
@@ -19,68 +19,68 @@ const formField = {
   startDate: '',
   endDate: '',
   workSummary: ''
-}
+});
 
 export default function WorkExperiences({ onFieldChange, onSaveComplete }) {
-  const [workExperienceList, setWorkExperienceList] = useState([formField])
-  const [loading, setLoading] = useState(false)
-  const params = useParams()
-  const { curriculumInfo, setCurriculumInfo } = useContext(CurriculumInfoContext)
+  const [workExperienceList, setWorkExperienceList] = useState([formField()]);
+  const [loading, setLoading] = useState(false);
+  const params = useParams();
+  const { curriculumInfo, setCurriculumInfo } = useContext(CurriculumInfoContext);
 
   const handleChange = (index, e) => {
-    const newEntries = workExperienceList.slice()
-    const { name, value } = e.target
-    newEntries[index][name] = value
-    setWorkExperienceList(newEntries)
+    const newEntries = [...workExperienceList];
+    const { name, value } = e.target;
+    newEntries[index][name] = value;
+    setWorkExperienceList(newEntries);
     onFieldChange();
-  }
+  };
 
   const addNewWorkExperience = () => {
-    setWorkExperienceList([...workExperienceList, formField])
+    setWorkExperienceList([...workExperienceList, formField()]);
     onFieldChange();
-  }
-  
+  };
+
   const removeWorkExperience = () => {
-    setWorkExperienceList(workExperience => workExperience.slice(0, -1))
+    setWorkExperienceList(workExperience => workExperience.slice(0, -1));
     onFieldChange();
-  }
+  };
 
   const handleRichTextEditor = (e, name, index) => {
-    const newEntries = workExperienceList.slice()
-    newEntries[index][name] = e.target.value
-    setWorkExperienceList(newEntries)
+    const newEntries = [...workExperienceList];
+    newEntries[index][name] = e.target.value;
+    setWorkExperienceList(newEntries);
     onFieldChange();
-  }
+  };
 
   const onSave = () => {
-    setLoading(true)
+    setLoading(true);
     const data = {
       data: {
         workExperience: workExperienceList.map(({ id, ...rest }) => rest)
       }
-    }
+    };
 
     GlobalApi.UpdateCurriculumDetails(params?.curriculumId, data).then(resp => {
-      setLoading(false)
-      toast('Work experiences updated!')
+      setLoading(false);
+      toast('Work experiences updated!');
       onSaveComplete();
     }, (error) => {
-      setLoading(false)
-      toast('Server Error, Please try again!')
-    })
-  }
+      setLoading(false);
+      toast('Server Error, Please try again!');
+    });
+  };
 
   useEffect(() => {
-    setCurriculumInfo({ ...curriculumInfo, workExperience: workExperienceList })
+    setCurriculumInfo({ ...curriculumInfo, workExperience: workExperienceList });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [workExperienceList])
+  }, [workExperienceList]);
 
   useEffect(() => {
     if (curriculumInfo && curriculumInfo.workExperience && curriculumInfo.workExperience.length > 0) {
-      setWorkExperienceList(curriculumInfo.workExperience)
+      setWorkExperienceList(curriculumInfo.workExperience);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   return (
     <div>
@@ -144,5 +144,5 @@ export default function WorkExperiences({ onFieldChange, onSaveComplete }) {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,16 +1,16 @@
-/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { useContext, useEffect, useState } from "react"
-import RichTextEditor from "../RichTextEditor"
-import { CurriculumInfoContext } from "@/context/CurriculumInfoContext"
-import { useParams } from "react-router-dom"
-import GlobalApi from "./../../../../../service/GlobalApi"
-import { toast } from "sonner"
-import { LoaderCircle } from "lucide-react"
+/* eslint-disable react/prop-types */
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useContext, useEffect, useState } from "react";
+import RichTextEditor from "../RichTextEditor";
+import { CurriculumInfoContext } from "@/context/CurriculumInfoContext";
+import { useParams } from "react-router-dom";
+import GlobalApi from "./../../../../../service/GlobalApi";
+import { toast } from "sonner";
+import { LoaderCircle } from "lucide-react";
 
-const formField = {
+const formField = () => ({
   title: '',
   institution: '',
   city: '',
@@ -19,68 +19,68 @@ const formField = {
   startDate: '',
   endDate: '',
   description: ''
-}
+});
 
 export default function ResearchExperiences({ onFieldChange, onSaveComplete }) {
-  const { curriculumInfo, setCurriculumInfo } = useContext(CurriculumInfoContext)
-  const params = useParams()
-  const [loading, setLoading] = useState(false)
-  const [researchExperiencesList, setResearchExperiencesList] = useState([formField])
+  const { curriculumInfo, setCurriculumInfo } = useContext(CurriculumInfoContext);
+  const params = useParams();
+  const [loading, setLoading] = useState(false);
+  const [researchExperiencesList, setResearchExperiencesList] = useState([formField()]);
 
   const handleChange = (index, e) => {
-    const newEntries = researchExperiencesList.slice()
-    const { name, value } = e.target
-    newEntries[index][name] = value
-    setResearchExperiencesList(newEntries)
+    const newEntries = [...researchExperiencesList];
+    const { name, value } = e.target;
+    newEntries[index][name] = value;
+    setResearchExperiencesList(newEntries);
     onFieldChange();
-  }
+  };
 
   const addNewResearchExperience = () => {
-    setResearchExperiencesList([...researchExperiencesList, formField])
+    setResearchExperiencesList([...researchExperiencesList, formField()]);
     onFieldChange();
-  }
+  };
   
   const removeResearchExperience = () => {
-    setResearchExperiencesList(researchExperience => researchExperience.slice(0, -1))
+    setResearchExperiencesList(researchExperience => researchExperience.slice(0, -1));
     onFieldChange();
-  }
+  };
 
   const handleRichTextEditor = (e, name, index) => {
-    const newEntries = researchExperiencesList.slice()
-    newEntries[index][name] = e.target.value
-    setResearchExperiencesList(newEntries)
+    const newEntries = [...researchExperiencesList];
+    newEntries[index][name] = e.target.value;
+    setResearchExperiencesList(newEntries);
     onFieldChange();
-  }
+  };
 
   const onSave = () => {
-    setLoading(true)
+    setLoading(true);
     const data = {
       data: {
         researchExperience: researchExperiencesList.map(({ id, ...rest }) => rest)
       }
-    }
+    };
 
     GlobalApi.UpdateCurriculumDetails(params?.curriculumId, data).then(resp => {
-      setLoading(false)
-      toast('Research experiences updated!')
+      setLoading(false);
+      toast('Research experiences updated!');
       onSaveComplete();
     }, (error) => {
-      setLoading(false)
-      toast('Server Error, Please try again!')
-    })
-  }
+      setLoading(false);
+      toast('Server Error, Please try again!');
+    });
+  };
 
   useEffect(() => {
-    setCurriculumInfo({ ...curriculumInfo, researchExperience: researchExperiencesList })
+    setCurriculumInfo({ ...curriculumInfo, researchExperience: researchExperiencesList });
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [researchExperiencesList])
+  }, [researchExperiencesList]);
 
   useEffect(() => {
     if (curriculumInfo && curriculumInfo.researchExperience && curriculumInfo.researchExperience.length > 0) {
-      setResearchExperiencesList(curriculumInfo.researchExperience)
+      setResearchExperiencesList(curriculumInfo.researchExperience);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []);
 
   return (
     <div className="p-5 shadow-lg rounded-lg border-t-primary border-t-4 mt-10">
@@ -142,5 +142,5 @@ export default function ResearchExperiences({ onFieldChange, onSaveComplete }) {
         </Button>
       </div>
     </div>
-  )
+  );
 }
